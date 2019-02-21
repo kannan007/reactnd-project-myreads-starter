@@ -22,6 +22,30 @@ class BooksApp extends React.Component {
     }));
   };
 
+  changeShelf = (event, book) => {
+    let indexPosition = null;
+    let newShelf = event.target.value;
+    this.state.books.forEach((x, i) => {
+      if (x.id === book.id) indexPosition = i;
+    });
+
+    BooksAPI.update(book, newShelf)
+      .then(books => {
+        this.setState(currentState => ({
+          books: currentState.books.map((x, i) => {
+            if (i === indexPosition) {
+              x.shelf = newShelf;
+            }
+            return x;
+          }),
+        }));
+        console.log(this.state.books);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   componentDidMount() {
     BooksAPI.getAll().then(books => {
       this.setState(currentState => ({
@@ -37,7 +61,9 @@ class BooksApp extends React.Component {
         <Route
           exact
           path="/"
-          component={({ history }) => <BookList books={this.state.books} />}
+          component={({ history }) => (
+            <BookList books={this.state.books} onChangeShelf={this.changeShelf} />
+          )}
         />
         <Route path="/searchbooks" component={() => <SearchBooks onSearch={this.setPage} />} />
       </div>

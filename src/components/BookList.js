@@ -34,7 +34,7 @@ class BookList extends React.Component {
                               }}
                             />
                             <div className="book-shelf-changer">
-                              <select onChange={event => this.props.onChangeShelf(event, book)}>
+                              <select defaultValue={book.shelf} onChange={event => this.props.onChangeShelf(event, book)}>
                                 <option value="move" disabled>
                                   Move to...
                                 </option>
@@ -72,8 +72,8 @@ class BookList extends React.Component {
                               }}
                             />
                             <div className="book-shelf-changer">
-                              <select onChange={event => this.props.onChangeShelf(event, book)}>
-                                <option value="move" disabled>
+                              <select defaultValue={book.shelf} onChange={event => this.props.onChangeShelf(event, book)}>
+                                <option value="move" disabled >
                                   Move to...
                                 </option>
                                 <option value="currentlyReading">Currently Reading</option>
@@ -110,7 +110,7 @@ class BookList extends React.Component {
                               }}
                             />
                             <div className="book-shelf-changer">
-                              <select onChange={event => this.props.onChangeShelf(event, book)}>
+                              <select defaultValue={book.shelf} onChange={event => this.props.onChangeShelf(event, book)}>
                                 <option value="move" disabled>
                                   Move to...
                                 </option>

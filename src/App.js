@@ -14,7 +14,7 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     books: [],
-    searchBooksResults: [],
+    searchBookResults: [],
   };
 
   setPage = setState => {
@@ -25,9 +25,38 @@ class BooksApp extends React.Component {
 
   searchBook = event => {
     console.log(event);
-    BooksAPI.search(event.target.value)
+    if (!event.target.value || !event.target.value.length) {
+      this.setState(currentState => ({
+        searchBookResults: [],
+      }));
+    } else
+      BooksAPI.search(event.target.value)
+        .then(books => {
+          console.log(books);
+          this.setState(currentState => ({
+            searchBookResults: books,
+          }));
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  };
+
+  changeShelfviaSearch = (event, book) => {
+    let newShelf = event.target.value;
+    book.shelf = newShelf;
+
+    BooksAPI.update(book, newShelf)
       .then(books => {
-        console.log(books);
+        this.setState(currentState => ({
+          searchBookResults: currentState.searchBookResults.map((x, i) => {
+            if (x.id === book.id) {
+              return { ...x, shelf: newShelf };
+            }
+            return x;
+          }),
+          books: currentState.books.concat(book),
+        }));
       })
       .catch(err => {
         console.log(err);
@@ -72,7 +101,16 @@ class BooksApp extends React.Component {
             <BookList books={this.state.books} onChangeShelf={this.changeShelf} />
           )}
         />
-        <Route path="/searchbooks" component={() => <SearchBooks onSearch={this.searchBook} />} />
+        <Route
+          path="/searchbooks"
+          component={() => (
+            <SearchBooks
+              searchBookResults={this.state.searchBookResults}
+              onSearch={this.searchBook}
+              onChangeShelf={this.changeShelfviaSearch}
+            />
+          )}
+        />
       </div>
     );
   }

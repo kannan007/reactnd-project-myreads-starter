@@ -24,7 +24,6 @@ class BooksApp extends React.Component {
   };
 
   searchBook = event => {
-    console.log(event);
     if (!event.target.value || !event.target.value.length) {
       this.setState(currentState => ({
         searchBookResults: [],
@@ -93,7 +92,6 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {/* {this.state.showSearchPage ? <SearchBooks /> : <BookList onSearch={this.setPage} />} */}
         <Route
           exact
           path="/"

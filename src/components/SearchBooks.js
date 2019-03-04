@@ -6,6 +6,15 @@ class SearchBooks extends React.Component {
     super(props);
     console.log(props);
   }
+
+  state = {
+    searchQuery: '',
+  }
+
+  shouldComponentUpdate() {
+
+  }
+
   render() {
     return (
       <div className="search-books">

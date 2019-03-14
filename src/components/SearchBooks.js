@@ -5,15 +5,13 @@ class SearchBooks extends React.Component {
   constructor(props) {
     super(props);
     console.log(props);
+    this.state = {
+      searchQuery: props.searchQuery,
+    };
   }
+  
 
-  state = {
-    searchQuery: '',
-  }
-
-  shouldComponentUpdate() {
-
-  }
+  shouldComponentUpdate() {}
 
   render() {
     return (
@@ -34,7 +32,8 @@ class SearchBooks extends React.Component {
             <input
               type="text"
               placeholder="Search by title or author"
-              onKeyUp={event => this.props.onSearch(event)}
+              value={this.state.searchQuery}
+              onChange={event => this.props.onSearch(event)}
             />
           </div>
         </div>

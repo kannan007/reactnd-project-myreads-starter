@@ -15,6 +15,7 @@ class BooksApp extends React.Component {
      */
     books: [],
     searchBookResults: [],
+    searchQuery: '',
   };
 
   setPage = setState => {
@@ -24,6 +25,12 @@ class BooksApp extends React.Component {
   };
 
   searchBook = event => {
+    event.persist();
+
+    this.setState(currentState => ({
+      searchQuery: event.target.value,
+    }));
+    let temp = event.target.value;
     if (!event.target.value || !event.target.value.length) {
       this.setState(currentState => ({
         searchBookResults: [],
@@ -34,6 +41,7 @@ class BooksApp extends React.Component {
           console.log(books);
           this.setState(currentState => ({
             searchBookResults: books,
+            searchQuery: temp,
           }));
         })
         .catch(err => {
@@ -104,6 +112,7 @@ class BooksApp extends React.Component {
           component={() => (
             <SearchBooks
               searchBookResults={this.state.searchBookResults}
+              searchQuery={this.state.searchQuery}
               onSearch={this.searchBook}
               onChangeShelf={this.changeShelfviaSearch}
             />
